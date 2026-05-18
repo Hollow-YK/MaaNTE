@@ -9,20 +9,20 @@
   !define ARCH "x64"
 !endif
 !ifndef ICON_FILE
-  !define ICON_FILE "H:\MAANTE\logo.ico"
+  !define ICON_FILE "H:\MaaNTE\logo.ico"
 !endif
 !ifndef SOURCE_DIR
-  !define SOURCE_DIR "H:\MAANTE"
+  !define SOURCE_DIR "H:\MaaNTE"
 !endif
 
 ; ---------- 基本信息 ----------
-Name "MAANTE"
+Name "MaaNTE"
 !ifndef OUTFILE
-  !define OUTFILE "MAANTE_Setup.exe"
+  !define OUTFILE "MaaNTE_Setup.exe"
 !endif
 OutFile "${OUTFILE}"
-InstallDir "D:\MAANTE"
-InstallDirRegKey HKLM "Software\MAANTE" "InstallDir"
+InstallDir "D:\MaaNTE"
+InstallDirRegKey HKLM "Software\MaaNTE" "InstallDir"
 RequestExecutionLevel admin
 SetCompressor lzma
 
@@ -44,8 +44,8 @@ SetCompressor lzma
 
 ; ---------- 组件描述 ----------
 LangString DESC_SecCore ${LANG_SIMPCHINESE} "核心程序文件（必选）"
-LangString DESC_SecStartMenu ${LANG_SIMPCHINESE} "在开始菜单中创建 MAANTE 的快捷方式"
-LangString DESC_SecDesktop ${LANG_SIMPCHINESE} "在桌面上创建 MAANTE 的快捷方式"
+LangString DESC_SecStartMenu ${LANG_SIMPCHINESE} "在开始菜单中创建 MaaNTE 的快捷方式"
+LangString DESC_SecDesktop ${LANG_SIMPCHINESE} "在桌面上创建 MaaNTE 的快捷方式"
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${SecCore} $(DESC_SecCore)
@@ -64,28 +64,28 @@ Section "核心文件" SecCore
     WriteUninstaller "$INSTDIR\uninstall.exe"
 
     ; 注册表（程序和功能）
-    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MAANTE" "DisplayName" "MAANTE"
-    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MAANTE" "UninstallString" "$INSTDIR\uninstall.exe"
-    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MAANTE" "DisplayIcon" "$INSTDIR\logo.ico"
-    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MAANTE" "Publisher" "MAANTE"
-    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MAANTE" "InstallLocation" "$INSTDIR"
-    WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MAANTE" "NoModify" 1
-    WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MAANTE" "NoRepair" 1
-    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MAANTE" "DisplayVersion" "${VERSION}"
+    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MaaNTE" "DisplayName" "MaaNTE"
+    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MaaNTE" "UninstallString" "$INSTDIR\uninstall.exe"
+    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MaaNTE" "DisplayIcon" "$INSTDIR\logo.ico"
+    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MaaNTE" "Publisher" "MaaNTE"
+    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MaaNTE" "InstallLocation" "$INSTDIR"
+    WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MaaNTE" "NoModify" 1
+    WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MaaNTE" "NoRepair" 1
+    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MaaNTE" "DisplayVersion" "${VERSION}"
 
-    WriteRegStr HKLM "Software\MAANTE" "InstallDir" "$INSTDIR"
+    WriteRegStr HKLM "Software\MaaNTE" "InstallDir" "$INSTDIR"
 SectionEnd
 
 Section /o "开始菜单快捷方式" SecStartMenu
     SetShellVarContext all
-    CreateDirectory "$SMPROGRAMS\MAANTE"
-    CreateShortCut "$SMPROGRAMS\MAANTE\MAANTE.lnk" "$INSTDIR\MAANTE.exe" "" "$INSTDIR\logo.ico" 0
-    CreateShortCut "$SMPROGRAMS\MAANTE\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\logo.ico" 0
+    CreateDirectory "$SMPROGRAMS\MaaNTE"
+    CreateShortCut "$SMPROGRAMS\MaaNTE\MaaNTE.lnk" "$INSTDIR\MaaNTE.exe" "" "$INSTDIR\logo.ico" 0
+    CreateShortCut "$SMPROGRAMS\MaaNTE\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\logo.ico" 0
 SectionEnd
 
 Section /o "桌面快捷方式" SecDesktop
     SetShellVarContext all
-    CreateShortCut "$DESKTOP\MAANTE.lnk" "$INSTDIR\MAANTE.exe" "" "$INSTDIR\logo.ico" 0
+    CreateShortCut "$DESKTOP\MaaNTE.lnk" "$INSTDIR\MaaNTE.exe" "" "$INSTDIR\logo.ico" 0
 SectionEnd
 
 ; ---------- .onInit（组件默认选中） ----------
@@ -98,11 +98,11 @@ FunctionEnd
 ; ---------- 卸载区段 ----------
 Section "Uninstall"
     SetShellVarContext all
-    Delete "$SMPROGRAMS\MAANTE\MAANTE.lnk"
-    Delete "$SMPROGRAMS\MAANTE\Uninstall.lnk"
-    RMDir  "$SMPROGRAMS\MAANTE"
-    Delete "$DESKTOP\MAANTE.lnk"
+    Delete "$SMPROGRAMS\MaaNTE\MaaNTE.lnk"
+    Delete "$SMPROGRAMS\MaaNTE\Uninstall.lnk"
+    RMDir  "$SMPROGRAMS\MaaNTE"
+    Delete "$DESKTOP\MaaNTE.lnk"
     RMDir /r "$INSTDIR"
-    DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MAANTE"
-    DeleteRegKey HKLM "Software\MAANTE"
+    DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MaaNTE"
+    DeleteRegKey HKLM "Software\MaaNTE"
 SectionEnd
