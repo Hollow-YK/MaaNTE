@@ -189,10 +189,37 @@ jobs:
             cp maante.ico install-mxu/logo.ico
           fi
 
+      - name: Install NSIS
+        if: matrix.arch == 'x86_64'
+        shell: bash
+        run: |
+          choco install nsis -y
+
+      - name: Build NSIS installer
+        if: matrix.arch == 'x86_64'
+        shell: bash
+        run: |
+          tag="${{ needs.meta.outputs.tag }}"
+          arch="${{ steps.platform.outputs.tag }}"
+          makensis \
+            -DVERSION="${tag}" \
+            -DARCH="${arch}" \
+            -DSOURCE_DIR="install-mxu" \
+            -DICON_FILE="maante.ico" \
+            -DOUTFILE="MaaNTE-win-${arch}-${tag}-Setup.exe" \
+            tools/ci/installer.nsi
+
       - uses: actions/upload-artifact@v4
         with:
           name: MaaNTE-win-${{ matrix.arch }}-${{ needs.meta.outputs.tag }}-MXU
           path: "install-mxu"
+
+      - name: Upload NSIS installer artifact
+        if: matrix.arch == 'x86_64'
+        uses: actions/upload-artifact@v4
+        with:
+          name: MaaNTE-win-${{ matrix.arch }}-${{ needs.meta.outputs.tag }}-Setup
+          path: "MaaNTE-win-${{ steps.platform.outputs.tag }}-${{ needs.meta.outputs.tag }}-Setup.exe"
 
   changelog:
     name: Generate changelog
@@ -232,7 +259,17 @@ jobs:
       - name: Process and package artifacts
         run: |
           cd assets
+          # Move NSIS .exe installers to assets root for direct upload
+          for d in *Setup*; do
+            if [ -d "$d" ]; then
+              mv "$d"/*.exe . 2>/dev/null || true
+              rm -rf "$d"
+            fi
+          done
           for f in *; do
+            if [ ! -d "$f" ]; then
+              continue
+            fi
             if [[ $f == *"win"* ]]; then
               (cd "$f" && zip -r "../$f.zip" .)
             else
