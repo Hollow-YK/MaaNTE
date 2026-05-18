@@ -193,7 +193,7 @@ jobs:
         if: matrix.arch == 'x86_64'
         shell: pwsh
         run: |
-          choco install nsis -y
+          choco install nsis --version=3.10.1 -y
 
       - name: Build NSIS installer
         if: matrix.arch == 'x86_64'
