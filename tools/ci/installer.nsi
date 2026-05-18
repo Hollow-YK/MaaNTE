@@ -55,6 +55,7 @@ LangString DESC_SecDesktop ${LANG_SIMPCHINESE} "在桌面上创建 MAANTE 的快
 
 ; ---------- 安装区段 ----------
 Section "核心文件" SecCore
+    SectionIn RO
     SetOutPath "$INSTDIR"
     ; 使用动态源文件目录
     File /r "${SOURCE_DIR}\*.*"
