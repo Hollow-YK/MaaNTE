@@ -191,26 +191,25 @@ jobs:
 
       - name: Install NSIS
         if: matrix.arch == 'x86_64'
-        shell: bash
+        shell: pwsh
         run: |
           choco install nsis -y
 
       - name: Build NSIS installer
         if: matrix.arch == 'x86_64'
-        shell: bash
+        shell: pwsh
         run: |
-          tag="${{ needs.meta.outputs.tag }}"
-          arch="${{ steps.platform.outputs.tag }}"
-          export PATH="/c/Program Files (x86)/NSIS:$PATH"
-          ICON_FILE_WIN=$(cygpath -w "$PWD/maante.ico")
-          SOURCE_DIR_WIN=$(cygpath -w "$PWD/install-mxu")
-          makensis \
-            -DVERSION="${tag}" \
-            -DARCH="${arch}" \
-            -DSOURCE_DIR="${SOURCE_DIR_WIN}" \
-            -DICON_FILE="${ICON_FILE_WIN}" \
-            -DOUTFILE="MaaNTE-win-${arch}-${tag}-Setup.exe" \
+          $tag = "${{ needs.meta.outputs.tag }}"
+          $arch = "${{ steps.platform.outputs.tag }}"
+          $env:Path = "C:\Program Files (x86)\NSIS;$env:Path"
+          makensis `
+            -DVERSION="$tag" `
+            -DARCH="$arch" `
+            -DSOURCE_DIR="install-mxu" `
+            -DICON_FILE="maante.ico" `
+            -DOUTFILE="MaaNTE-win-$arch-$tag-Setup.exe" `
             tools/ci/installer.nsi
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - uses: actions/upload-artifact@v4
         with:
