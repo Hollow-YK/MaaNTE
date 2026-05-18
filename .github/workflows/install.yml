@@ -205,7 +205,7 @@ jobs:
           makensis `
             -DVERSION="$tag" `
             -DARCH="$arch" `
-            -DSOURCE_DIR="install-mxu" `
+            -DSOURCE_DIR="${{ github.workspace }}\install-mxu" `
             -DICON_FILE="${{ github.workspace }}\maante.ico" `
             -DOUTFILE="MaaNTE-win-$arch-$tag-Setup.exe" `
             tools/ci/installer.nsi
